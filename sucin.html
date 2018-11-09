@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+
+     <!-- formular s vypoctom -->
+     <div>
+         <input type="text" name="num1"> <br>
+         <input type="text" name="num2"> <br>
+         <input type="button" value="multiply" onClick="multiply()">
+         <input type="button" value="divide" onClick="divide()"> <br>
+         <div name="result"></div>
+     </div><br>
+
+     <!-- datum -->
+     <div>
+        <button onClick="showDate()">Show date and time</button>
+        <div name="currentDate"></div>
+     </div>
+
+     <script>
+       function multiply() {
+         //var x;   stary js
+         let a=document.getElementsByName("num1")[0].value;
+         let b=document.getElementsByName("num2")[0].value;
+         let res=a*b;
+         //console.log(res);
+         document.getElementsByName('result')[0].innerHTML=a+' * '+b+' = '+res;
+       }
+
+       function divide() {
+         let a=document.getElementsByName("num1")[0].value;
+         let b=document.getElementsByName("num2")[0].value;
+         if(b==0){
+            document.getElementsByName('result')[0].innerHTML=' You cannot divide by 0';
+         }
+         else{
+            let res=a/b;
+            //console.log(res);
+            document.getElementsByName('result')[0].innerHTML=a+' / '+b+' = '+res;
+         }
+       }
+
+       function showDate(){
+         let dt=new Date();
+         let text=dt.getDate()+'-'+(dt.getMonth()+1)+'-'+dt.getFullYear();
+         console.log(text);
+         document.getElementsByName('currentDate')[0].innerHTML=text;
+       }
+     </script>
+  </body>
+</html>

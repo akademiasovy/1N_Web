@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+
+     <!-- formular s vypoctom -->
+     <div>
+       <table>
+         <tr><td> Amount: </td>
+             <td> <INPUT type="text" NAME="amount" > </TD></tr>
+         <tr><td> Number of installments: </td>
+             <td> <INPUT type="text" NAME="months" > </TD></tr>
+         <tr><td> Net salary: </td>
+             <td> <INPUT type="text" NAME="salary" > </TD></tr>
+         <tr><td>  </td>
+                   <td> <BUTTON onclick="calculate()">Calculate</BUTTON> </TD></tr>
+         <tr><td> </td> <td> <div name="result"></div>  </TD></tr>
+       </table>
+     </div>
+
+
+
+
+     <script>
+       function calculate(){
+          const interest=1.06;
+          let amount=document.getElementsByName('amount')[0].value;
+          let amount2=amount;
+          let months=document.getElementsByName('months')[0].value;
+          let salary=document.getElementsByName('salary')[0].value;
+          let years=Math.ceil(months/12);
+          //console.log(years);
+          for(i=0;i<years;i++)
+              amount=amount*interest;
+
+          let text;
+          let overpay;
+
+          let installment=(Math.round(amount/months*100))/100;
+          //console.log(installment);
+          if(installment*2>salary){
+              text="Declined! ";
+          }
+          else {
+             overpay=Math.round((installment*months-amount2)*100)/100;
+             text="Your interest: 6% <br> installmet: "+installment+"<br>Overpay "+overpay;
+
+          }
+          document.getElementsByName('result')[0].innerHTML=text;
+       }
+     </script>
+  </body>
+</html>
