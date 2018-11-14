@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+  <canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000;">
+  </canvas>
+  <button onclick="btnplus('plus')">+10</button>
+  <button onclick="btnplus('minus')">-10</button>
+  <button onclick="repeat()">repeat</button>
+  <button onclick="stop()">stop</button>
+  <script>
+        let c = document.getElementById("myCanvas");
+        let ctx = c.getContext("2d");
+        background();
+        let xa=ya=30;
+        let xb=260;
+        let yb=50;
+        let xc=140;
+        let yc=190;
+        drawTriangle(xa,ya,xb,yb,xc,yc);
+        let alfa=Math.atan(ya/xa);
+        let beta=Math.atan(yb/xb);
+        let gamma=Math.atan(yc/xc);
+        let ref;
+
+      function btnplus(type){
+        let diff;
+        if(type=='plus')
+            diff=Math.PI/18;
+         else
+           diff=-Math.PI/18;
+
+        let p=Math.sqrt(xa*xa+ya*ya);
+        alfa=alfa+diff;
+        xa=p*Math.cos(alfa);
+        ya=p*Math.sin(alfa);
+
+        p=Math.sqrt(xb*xb+yb*yb);
+        beta=beta+diff;
+        xb=p*Math.cos(beta);
+        yb=p*Math.sin(beta);
+
+        p=Math.sqrt(xc*xc+yc*yc);
+        gamma=gamma+diff;
+        xc=p*Math.cos(gamma);
+        yc=p*Math.sin(gamma);
+        //console.log('alfa= '+alfa+'  xa= '+xa+'  ya= '+ya);
+        //ctx.fillStyle='white';
+        ctx.clearRect(0,0,600,600);
+        ctx.beginPath();
+        background();
+        drawTriangle(xa,ya,xb,yb,xc,yc);
+
+      }
+
+      function drawTriangle(xa,ya,xb,yb,xc,yc)
+      {
+          ctx.moveTo(300+xa,300-ya); ctx.lineTo(xb+300,300-yb);
+          ctx.lineTo(300+xc,300-yc); ctx.lineTo(300+xa,300-ya);ctx.stroke();
+      }
+
+      function background(){
+        ctx.moveTo(20,300); ctx.lineTo(580,300);
+        ctx.moveTo(300,20); ctx.lineTo(300,580);
+        ctx.moveTo(295,30); ctx.lineTo(300,20); ctx.lineTo(305,30);
+        ctx.moveTo(570,295); ctx.lineTo(580,300); ctx.lineTo(570,305); ctx.stroke();
+        ctx.font = "20px Arial";
+        ctx.fillText("x",570,320);ctx.fillText("y",280,30 );ctx.fillText("0",280,320 );
+      }
+
+      function repeat(){
+        ref=setInterval( function() { btnplus('plus'); }, 50);
+      }
+
+      function stop(){
+        clearInterval(ref);
+      }
+  </script>
+</body>
+</html>
