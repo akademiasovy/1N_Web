@@ -15,7 +15,7 @@ function imgClick(index){
     else
         paintCell('img/o.png',index);
     changePlayer();
-    setTimeout(checkWinner,500);
+    setTimeout(checkWinner,100);
   }
 }
 
@@ -65,6 +65,16 @@ function checkWinner(){
       alert('X is winner !');
    if(winner==2)
          alert('O is winner !');
-   
 
+
+}
+
+function resetGame(){
+  winner=0;
+  player=1;
+  for(i=0;i<9;i++){
+        board[i]=0;
+        paintCell('img/empty.png',i);
+  }
+  document.getElementById('player').innerHTML='Next player: X';
 }
