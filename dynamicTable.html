@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      h1 { text-align: center; color: blue;}
+      body {background-color: lightgray}
+      #divForm, #result { width: 750px; margin: auto;}
+      td { padding: 0px 10px 0px 10px;}
+      button { width: 110px; height: 50px;}
+      input[type='text'], input[type='number'] { width: 130px;}
+      #result table { border: 1px solid black; width: 720px;}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h1> Dynamicky renderovaný obsah tabuľky</h1>
+    <div id="divForm">
+        <table><tr>
+        <td><label>First name:</label></td>
+        <td><label>Last name:</label></td>
+        <td><label>Age:</label></td>
+        <td><label>Gender:</label></td>
+        <td rowspan="2"> <button onclick="btnAdd()">ADD</button></td>
+      </tr><tr>
+        <td><INPUT type="text" id="fname" ></td>
+        <td><INPUT type="text" id="lname" ></td>
+        <td><INPUT type="number" id="age" ></td>
+        <td><INPUT type="radio" name="gender" value="M" >male<br>
+        <INPUT type="radio" name="gender" value="F" >female</td>
+        </tr></table>
+    </div>
+    <br>
+    <div id="result">
+        <table class="tblResult" id="tblResult">
+         <tr><th>id</th><th>first name</th> <th>last name</th> <th>age</th>
+           <th>gender</th> </tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+    let count=0;
+      function btnAdd(){
+         let fname=$('#fname').val();
+         let lname=$('#lname').val();
+         let age=$('#age').val();
+         let gender=$('input[name=gender]:checked').val();
+
+         count++;
+         let column0=$('<td>').text(count);
+         let column1=$('<td>').text(fname);
+         let column2=$('<td>').text(lname);
+         let column3=$('<td>').text(age);
+         let column4=$('<td>');
+         if(gender=='M')
+             column4.text('male');
+          else if(gender=='F')
+             column4.text('female');
+          else
+             column4.text('unknown');
+         let row=$('<tr>');
+         row.append(column0);
+         row.append(column1);
+         row.append(column2);
+         row.append(column3);
+         row.append(column4);
+         $('#tblResult').append(row);
+         $('#fname').val('');
+         $('#lname').val('');
+         $('#age').val('');
+         
+         console.log('name: '+gender);
+      }
+    </script>
+  </body>
+</html>
