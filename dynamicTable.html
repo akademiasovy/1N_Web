@@ -9,6 +9,8 @@
       button { width: 110px; height: 50px;}
       input[type='text'], input[type='number'] { width: 130px;}
       #result table { border: 1px solid black; width: 720px;}
+      .button { margin-top: 20px; margin-right: 80px;}
+
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
@@ -27,48 +29,112 @@
         <td><INPUT type="number" id="age" ></td>
         <td><INPUT type="radio" name="gender" value="M" >male<br>
         <INPUT type="radio" name="gender" value="F" >female</td>
+
         </tr></table>
     </div>
     <br>
     <div id="result">
         <table class="tblResult" id="tblResult">
+          <thead>
          <tr><th>id</th><th>first name</th> <th>last name</th> <th>age</th>
-           <th>gender</th> </tr>
+           <th>gender</th> <th>delete</th></tr>
+         </thead>
+         <tbody id="autoContent">
+         </tbody>
         </table>
+        <button class="button" id="btnSave">Save data</button>
+        <button class="button" id="btnLoad">Load data</button>
     </div>
     <script type="text/javascript">
+    let persons=[];
     let count=0;
       function btnAdd(){
+        count++;
          let fname=$('#fname').val();
          let lname=$('#lname').val();
-         let age=$('#age').val();
+         let vek=$('#age').val();
          let gender=$('input[name=gender]:checked').val();
 
-         count++;
-         let column0=$('<td>').text(count);
-         let column1=$('<td>').text(fname);
-         let column2=$('<td>').text(lname);
-         let column3=$('<td>').text(age);
-         let column4=$('<td>');
-         if(gender=='M')
-             column4.text('male');
-          else if(gender=='F')
-             column4.text('female');
-          else
-             column4.text('unknown');
-         let row=$('<tr>');
-         row.append(column0);
-         row.append(column1);
-         row.append(column2);
-         row.append(column3);
-         row.append(column4);
-         $('#tblResult').append(row);
-         $('#fname').val('');
-         $('#lname').val('');
-         $('#age').val('');
-         
-         console.log('name: '+gender);
+         let person= {
+             id:count,
+             fname:fname,
+             lname:lname,
+             age:vek,
+             gender:gender
+         };
+         persons.push(person);
+
+
+         renderTable(person);
+
+         console.log('name: '+persons);
       }
+
+      const deletePerson=(id)=>{
+        console.log(id);
+        let index=persons.findIndex(x => {return  x.id===id} );
+        console.log('I am going to delete: '+persons[index].lname+' '+index);
+        persons.splice(index,1);
+        let per=[...persons];
+        $('#autoContent').empty();
+
+        per.map(x=>{
+          renderTable(x);
+        });
+        persons=[...per];
+
+        console.log(per);
+      }
+
+      const renderTable = (person) => {
+
+
+        let column0=$('<td>').text(person.id);
+        let column1=$('<td>').text(person.fname);
+        let column2=$('<td>').text(person.lname);
+        let column3=$('<td>').text(person.age);
+        let column4=$('<td>');
+        if(person.gender=='M')
+            column4.text('male');
+         else if(person.gender=='F')
+            column4.text('female');
+         else
+            column4.text('unknown');
+        let column5=$('<td>');
+        let text='deletePerson('+person.id+')';
+        let image=$('<img>').attr('src','deleteX.png').attr('onclick',text);
+
+        column5.append(image);
+
+        let row=$('<tr>');
+        row.append(column0);
+        row.append(column1);
+        row.append(column2);
+        row.append(column3);
+        row.append(column4);
+        row.append(column5);
+        $('#tblResult').append(row);
+        $('#fname').val('');
+        $('#lname').val('');
+        $('#age').val('');
+      }
+      $('#btnSave').click( ()=>{
+          if (typeof(Storage) !== "undefined") {
+                let text=JSON.stringify(persons);
+                localStorage.setItem("persons", text);
+          }
+      });
+      $('#btnLoad').click( ()=>{
+          if (typeof(Storage) !== "undefined") {
+                let text=localStorage.getItem("persons");
+                persons=JSON.parse(text);
+                $('#autoContent').empty();
+                console.log(persons[0].fname);
+                persons.map( x => {
+                  renderTable(x);
+                });
+          }
+      });
     </script>
   </body>
 </html>
