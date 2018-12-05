@@ -70,10 +70,12 @@
          console.log('name: '+persons);
       }
 
+
+
       const deletePerson=(id)=>{
         console.log(id);
         let index=persons.findIndex(x => {return  x.id===id} );
-        console.log('I am going to delete: '+persons[index].lname+' '+index);
+        //console.log('I am going to delete: '+persons[index].lname+' '+index);
         persons.splice(index,1);
         let per=[...persons];
         $('#autoContent').empty();
@@ -102,7 +104,7 @@
             column4.text('unknown');
         let column5=$('<td>');
         let text='deletePerson('+person.id+')';
-        let image=$('<img>').attr('src','deleteX.png').attr('onclick',text);
+        let image=$('<img>').attr('src','deleteX.png').attr('onclick',text).attr("onmouseover",changeimg(this));
 
         column5.append(image);
 
@@ -122,19 +124,28 @@
           if (typeof(Storage) !== "undefined") {
                 let text=JSON.stringify(persons);
                 localStorage.setItem("persons", text);
+                localStorage.setItem("counter", count);
           }
       });
       $('#btnLoad').click( ()=>{
           if (typeof(Storage) !== "undefined") {
                 let text=localStorage.getItem("persons");
+                count=localStorage.getItem("counter");
                 persons=JSON.parse(text);
                 $('#autoContent').empty();
-                console.log(persons[0].fname);
+                //console.log(persons[0].fname);
                 persons.map( x => {
                   renderTable(x);
                 });
           }
       });
+
+     function changeimg(){
+       console.log('text');
+        $(this).attr('src','hdelete.png');
+      }
+
+
     </script>
   </body>
 </html>
